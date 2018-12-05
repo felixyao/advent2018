@@ -11,7 +11,6 @@ mod coordinate;
 mod claim;
 mod fabric;
 
-
 const SIDE_LENGTH: usize = 1000;
 
 fn for_each_claim<F>(file: &str, mut f: F) -> MyResult<()>

@@ -5,8 +5,6 @@ use std::fmt;
 use myerror::MyResult;
 use super::coordinate::{Coordinate, CoordinateIterator};
 
-
-
 #[derive(Clone)]
 #[derive(Copy)]
 #[derive(Debug)]
