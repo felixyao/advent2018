@@ -36,7 +36,7 @@ fn puzzle1(fabric : &mut fabric::Fabric) -> MyResult<()> {
 
 fn puzzle2(fabric: &fabric::Fabric) -> MyResult<()>  {
     for_each_claim("inputs/day3.txt", |cut| {
-        if !fabric.is_cut_overlapped(&cut) {
+        if !fabric.is_cut_overlapped(cut) {
             println!("{}", cut);
         }
         Ok(())
