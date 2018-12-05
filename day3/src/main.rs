@@ -7,6 +7,7 @@ use std::io::prelude::*;
 extern crate myerror;
 use myerror::MyResult;
 
+mod coordinate;
 mod claim;
 mod fabric;
 
