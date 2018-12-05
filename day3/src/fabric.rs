@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use super::claim::Cut;
-use myerror::MyResult;
 
 pub struct Fabric {
     side: usize,
@@ -15,14 +14,12 @@ impl Fabric {
         }
     }
 
-    pub fn apply(&mut self, claim: &String)->MyResult<()> {
-        let cut = Cut::new(claim)?;
+    pub fn apply(&mut self, cut: &Cut) {
         let side = self.side;
         for key in cut.coordinates().map(|c| c.key(side)) {
             let v = self.cuts.get(&key).map_or(1, |&v| v+1);
             self.cuts.insert(key, v);
         };
-        Ok(())
     }
 
     pub fn count_overlap(&self) -> usize  {

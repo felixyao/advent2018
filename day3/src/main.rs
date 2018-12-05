@@ -14,25 +14,34 @@ mod fabric;
 
 const SIDE_LENGTH: usize = 1000;
 
-fn puzzle1(fabric : &mut fabric::Fabric) -> MyResult<()>  {
-    let file = File::open("inputs/day3.txt") ?;
+fn for_each_claim<F>(file: &str, mut f: F) -> MyResult<()>
+where 
+    F: FnMut(&claim::Cut) -> MyResult<()> {
+    let file = File::open(file) ?;
     let reader = BufReader::new(file);
     for line in reader.lines() {
-        fabric.apply(&line.unwrap())?;
+        let cut = claim::Cut::new(&line.unwrap())?;
+        f(&cut)?;
     }
+    Ok(())
+}
+
+fn puzzle1(fabric : &mut fabric::Fabric) -> MyResult<()> {
+    for_each_claim("inputs/day3.txt", |cut| {
+        fabric.apply(cut);
+        Ok(())
+    })?;
     println!("{} square inches are overlapped", fabric.count_overlap());
     Ok(())
 }
 
 fn puzzle2(fabric: &fabric::Fabric) -> MyResult<()>  {
-    let file = File::open("inputs/day3.txt") ?;
-    let reader = BufReader::new(file);
-    for line in reader.lines() {
-        let cut = claim::Cut::new(&line.unwrap())?;
+    for_each_claim("inputs/day3.txt", |cut| {
         if !fabric.is_cut_overlapped(&cut) {
             println!("{}", cut);
         }
-    }
+        Ok(())
+    })?;
     Ok(())
 }
 
