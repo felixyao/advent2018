@@ -16,10 +16,12 @@ impl Fabric {
 
     pub fn apply(&mut self, cut: &Cut) {
         let side = self.side;
-        for key in cut.coordinates().map(|c| c.key(side)) {
-            let v = self.cuts.get(&key).map_or(1, |&v| v+1);
-            self.cuts.insert(key, v);
-        };
+        cut.coordinates()
+        .map(|c| c.key(side))
+        .for_each(|key| {
+           let v = self.cuts.get(&key).map_or(1, |&v| v+1);
+           self.cuts.insert(key, v);
+        });
     }
 
     pub fn count_overlap(&self) -> usize  {
