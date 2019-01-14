@@ -6,7 +6,7 @@ use std::collections::HashMap;
 use std::collections::BTreeSet;
 use std::collections::HashSet;
 
-const INPUT_FILE:&str = "inputs/day7_e.txt";
+const INPUT_FILE:&str = "inputs/day7.txt";
 
 /*  example 
 Step C must be finished before step A can begin.
@@ -99,109 +99,62 @@ impl TaskManager {
     //// for puzzel2
 }
 
+/* puzzle 1 
+after build up: 
+    TaskManager {
+        waiting_queue: {'C'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {'C'}, 'F': {'C'}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
+    }
+after loop 1:
+    task = 'C'
+    TaskManager {
+        waiting_queue: {'A', 'F'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
+    } 
+after loop 2:
+    task = 'A'
+    TaskManager {
+        waiting_queue: {'B', 'D', 'F'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'B', 'F', 'D'}}
+    } 
+after loop 3:
+    task = 'B'
+    TaskManager {
+        waiting_queue: {'D', 'F'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F', 'D'}}
+    }
+after loop 4:
+    task = 'D'
+    TaskManager {
+        waiting_queue: {'F'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F'}}
+    }
+after loop 5:
+    task = 'F'
+    TaskManager {
+        waiting_queue: {'E'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {}}
+    }
+after loop 6:
+    task = 'E'
+    TaskManager {
+        waiting_queue: {'E'},
+        fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
+        dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {}}
+    } 
+*/
+
 fn puzzle1() {
     let mut tm = TaskManager::new();
     tm.build_tasks_map(INPUT_FILE);
-    /* tm
-     TaskManager {
-         waiting_queue: {'C'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {'C'}, 'F': {'C'}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-     }
-    */
-    println!("{:?}", tm);
     while let Some(task) = tm.next_waiting_task(){
-        /* loop 1
-        task = 'C'
-        TaskManager {
-         waiting_queue: {},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {'C'}, 'F': {'C'}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-        /* loop 2
-        task = 'A'
-        TaskManager {
-         waiting_queue: {'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-        /* loop 3
-        task = 'B'
-        TaskManager {
-         waiting_queue: {'D', 'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-        /* loop 4
-        task = 'D'
-        TaskManager {
-         waiting_queue: {'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-       /* loop 5
-       task = 'F'
-        TaskManager {
-         waiting_queue: {},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F'}}
-        }
-         */
-       /* loop 6
-       task = 'E'
-        TaskManager {
-         waiting_queue: {},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F'}}
-        }
-         */
         tm.remove_task(task);
-        /* loop 1
-        TaskManager {
-         waiting_queue: {'A', 'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {'A'}, 'B': {'A'}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-        /* loop 2
-        TaskManager {
-         waiting_queue: {'B', 'D', 'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'B', 'F', 'D'}}
-        }
-         */
-        /* loop 3
-        TaskManager {
-         waiting_queue: {'D', 'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F', 'D'}}
-        }
-         */
-       /* loop 4
-        TaskManager {
-         waiting_queue: {'F'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {'F'}}
-        }
-         */
-       /* loop 5
-        TaskManager {
-         waiting_queue: {'E'},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {}}
-        }
-         */
-       /* loop 6
-        TaskManager {
-         waiting_queue: {},
-         fllow_ups_map: {'D': {'E'}, 'B': {'E'}, 'C': {'A', 'F'}, 'F': {'E'}, 'A': {'B', 'D'}},
-         dependences_map: {'A': {}, 'F': {}, 'D': {}, 'B': {}, 'E': {}}
-        }
-         */
         print!("{}", task as char);
     }
     println!("");
@@ -256,10 +209,12 @@ fn puzzle2() {
     while tm.has_waiting_task() || workers.has_task()  {
         while let Some(task) = tm.next_waiting_task(){
             if !workers.give(task) {
+                // All works have a taks. waiting for some one free
                 total += workers.wait_until_one_task_finish(&mut tm).unwrap();
                 workers.give(task);
             }
         }
+        // All free tasks have been in working queue. waiting for any one to free then we can process the fllow ups.
         if let Some(time) =  workers.wait_until_one_task_finish(&mut tm) {
             total += time;
         }
