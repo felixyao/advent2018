@@ -2,5 +2,14 @@
 
 members = [
     "myerror",
+    "day9",
+    "day8",
+    "day7",
+    "day6",
+    "day5",
+    "day4",
     "day3",
+    "day2",
+    "day1",
+    "input_parser",
 ]

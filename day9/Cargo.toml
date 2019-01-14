@@ -1,0 +1,8 @@
+[package]
+name = "day9"
+version = "0.1.0"
+authors = ["efenyao <felix.yao@ericsson.com>"]
+edition = "2018"
+
+[dependencies]
+linked-list = "0.0.3"

@@ -1,10 +1,8 @@
 [package]
-name = "day3"
-version = "1.0.0"
+name = "day5"
+version = "0.1.0"
 authors = ["efenyao <felix.yao@ericsson.com>"]
 edition = "2018"
 
 [dependencies]
-regex = "1"
-lazy_static = "*"
 input_parser = { path = "../input_parser" }

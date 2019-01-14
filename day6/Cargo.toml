@@ -1,0 +1,9 @@
+[package]
+name = "day6"
+version = "0.1.0"
+authors = ["efenyao <felix.yao@ericsson.com>"]
+edition = "2018"
+
+[dependencies]
+input_parser = { path = "../input_parser" }
+regex = "1"
